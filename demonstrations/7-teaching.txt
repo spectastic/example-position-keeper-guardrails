@@ -1,0 +1,9 @@
+# Demo 7 — teaching on failure (shifu)
+$ spectastic verdict --changed <priya> --teach
+VIOLATION 002-downstream-consumers/D-007 [no_sql_write_to_positions_outside_adapter] at docs/priya-pr/PositionReconciliationJob.java:20
+  docs/priya-pr/PositionReconciliationJob.java → UPDATE\s+positions
+  Every position change must emit PositionChanged so Risk, P&L, and the audit trail stay consistent; a direct write to the position store bypasses the emission and the audit hooks that live in the adapter.
+
+Teaching follow-up (advisory — reason for yourself, this is not a fix):
+  · Decision 002-downstream-consumers/D-007 exists so that: Every position change must emit PositionChanged so Risk, P&L, and the audit trail stay consistent; a direct write to the position store bypasses the emission and the audit hooks that live in the adapter. — this change has docs/priya-pr/PositionReconciliationJob.java reaching UPDATE\s+positions. What makes that necessary here, rather than the path the decision intends?
+Wrote demonstrations/7-verdict.json
