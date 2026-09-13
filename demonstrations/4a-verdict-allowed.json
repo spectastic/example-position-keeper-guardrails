@@ -1,5 +1,7 @@
 {
-  "at": "2026-09-13T17:19:25.938Z",
+  "at": "2026-09-13T20:34:10.503Z",
+  "scope": "repo-local",
+  "decisionsEvaluated": 2,
   "changed": [
     "src/xyz/briancorbin/pk/hex/persistence/JdbcPositionRepositoryAdapter.java"
   ],

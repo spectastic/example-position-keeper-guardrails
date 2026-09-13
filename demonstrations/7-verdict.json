@@ -1,5 +1,7 @@
 {
-  "at": "2026-09-13T18:42:40.437Z",
+  "at": "2026-09-13T20:34:10.707Z",
+  "scope": "repo-local",
+  "decisionsEvaluated": 2,
   "changed": [
     "docs/priya-pr/PositionReconciliationJob.java"
   ],
