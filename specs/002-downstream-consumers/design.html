@@ -16,7 +16,7 @@
   <h1>Downstream consumers</h1>
   <p style="font-family:var(--font-serif);font-size:1.25rem;font-weight:300;color:var(--c-text-soft);font-style:italic;max-width:var(--measure);">How we will build it — and where ADR-0007 is born.</p>
   <spec-meta>
-    <b>Status</b>     <span><spec-status value="accepted">Accepted</spec-status></span>
+    <b>Status</b>     <span><spec-status value="draft">Draft</spec-status></span>
     <b>Spec</b>       <span><a href="./spec.html">002-downstream-consumers</a></span>
     <b>Owner</b>      <span>Position Keeping team</span>
     <b>Branch</b>     <span><code>main</code></span>
@@ -129,10 +129,10 @@ function (ADR-0007) so no later feature can add a second writer without failing 
 
 <section id="structure">
 <h2>9 · Project structure</h2>
-<pre><code>src/xyz/briancorbin/pk/hex/core/           # domain: positions, PositionChanged (JDK-only)
-src/xyz/briancorbin/pk/hex/persistence/    # the single writer + emitter (ADR-0007's scope)
-enforcement/DataAccessRulesTest.java        # the ArchUnit fitness function for D-007
-enforcement/semgrep-positions.yaml          # the Semgrep content rule for D-007</code></pre>
+<pre><code>src/main/java/xyz/briancorbin/pk/hex/core/                       # domain: positions, PositionChanged (JDK-only)
+src/main/java/xyz/briancorbin/pk/hex/persistence/                # the single writer + emitter (ADR-0007's scope)
+src/test/java/xyz/briancorbin/pk/enforcement/DataAccessRulesTest.java  # the ArchUnit fitness function for D-007 (writes SARIF)
+enforcement/semgrep-positions.yaml                                # the Semgrep content rule for D-007</code></pre>
 </section>
 
 <section id="risks">
@@ -148,6 +148,7 @@ enforcement/semgrep-positions.yaml          # the Semgrep content rule for D-007
 <section id="complexity"><h2>11 · Complexity tracking</h2><p>None beyond the layered enforcement, which is the point rather than accidental complexity.</p></section>
 <section id="open-questions"><h2>12 · Open questions</h2><p>None outstanding.</p></section>
 <section id="changelog"><h2>13 · Change log</h2><spec-changelog><ol>
+  <li><time datetime="2026-09-15">15 Sep 2026</time><span>Reset to Draft — re-driven through tasks → implement → verify against a real Gradle build; the 2024–25 dates in docs/timeline.md remain the narrated history.</span></li>
   <li><time datetime="2026-09-13">13 Sep 2026</time><span>D-007 amended with a resource scope (spectastic 119): the decision names the positions store by coordinate and this service as its owner, so a non-owner service's touch — however well layered — is a violation. The owner-side verdict is unchanged (demonstrations 1–7 reproduce byte-identically); demonstration 8 exercises the non-owner case.</span></li>
   <li><time datetime="2024-03-11">11 Mar 2024</time><span>Design accepted — the adapter becomes the single writer + emitter; ADR-0007 (D-007) authored with its ArchUnit fitness function, plus the DB-grant backstop (D-008). Grounds the emission guarantee in settlement consistency (KB-0001).</span></li>
 </ol></spec-changelog></section>

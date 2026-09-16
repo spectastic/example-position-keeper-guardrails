@@ -40,7 +40,7 @@ positions store, so ADR-0007 holds by construction.</p>
 only the persistence adapter touches the data store; every position change must emit PositionChanged). The plan honours it:
 corrections are applied through the position use case (which emits the event), and the only persistence-package addition is a
 <em>read-side</em> snapshot reader that uses the existing adapter — it adds no new writer. Retrieval:
-<code>spectastic adrs --for src/xyz/briancorbin/pk/hex/persistence/CustodianSnapshotReader.java</code> returns D-007; this section
+<code>spectastic adrs --for src/main/java/xyz/briancorbin/pk/hex/persistence/CustodianSnapshotReader.java</code> returns D-007; this section
 is its acknowledgment.</p>
 </section>
 
@@ -101,9 +101,9 @@ existing adapter, not a new writer), computes per-instrument deltas, and applies
 
 <section id="structure">
 <h2>9 · Project structure</h2>
-<pre><code>src/xyz/briancorbin/pk/hex/recon/ReconciliationJob.java             # the job (application layer)
-src/xyz/briancorbin/pk/hex/recon/CustodianFileParser.java           # parse the EOD file
-src/xyz/briancorbin/pk/hex/persistence/CustodianSnapshotReader.java  # read current positions via the adapter (read-only)</code></pre>
+<pre><code>src/main/java/xyz/briancorbin/pk/hex/recon/ReconciliationJob.java             # the job (application layer)
+src/main/java/xyz/briancorbin/pk/hex/recon/CustodianFileParser.java           # parse the EOD file
+src/main/java/xyz/briancorbin/pk/hex/persistence/CustodianSnapshotReader.java  # read current positions via the adapter (read-only)</code></pre>
 </section>
 
 <section id="risks">
