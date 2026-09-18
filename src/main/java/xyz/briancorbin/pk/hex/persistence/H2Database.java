@@ -40,6 +40,11 @@ public final class H2Database {
     return db;
   }
 
+  /** A handle for a file that may not exist or be openable — schema and grants are not applied. */
+  public static H2Database at(Path file) {
+    return new H2Database("jdbc:h2:file:" + file.toAbsolutePath());
+  }
+
   public String url() {
     return url;
   }

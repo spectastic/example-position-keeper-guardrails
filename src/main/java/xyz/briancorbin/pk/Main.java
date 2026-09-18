@@ -6,9 +6,11 @@ import xyz.briancorbin.pk.hex.app.PositionService;
 import xyz.briancorbin.pk.hex.consumers.PnlRevaluer;
 import xyz.briancorbin.pk.hex.consumers.RiskExposureView;
 import xyz.briancorbin.pk.hex.events.SyncEventBus;
+import xyz.briancorbin.pk.hex.http.HealthHandler;
 import xyz.briancorbin.pk.hex.http.HttpApi;
 import xyz.briancorbin.pk.hex.http.PositionsHandler;
 import xyz.briancorbin.pk.hex.persistence.H2Database;
+import xyz.briancorbin.pk.hex.persistence.H2StoreProbe;
 import xyz.briancorbin.pk.hex.persistence.JdbcPositionRepositoryAdapter;
 import xyz.briancorbin.pk.refdata.ReferenceFeedLoader;
 import xyz.briancorbin.pk.refdata.ReferenceStore;
@@ -43,7 +45,9 @@ public final class Main {
     refdata.load(ReferenceFeedLoader.loadBundled());
 
     HttpApi api =
-        new HttpApi("localhost", port).handle("/positions/", new PositionsHandler(positions));
+        new HttpApi("localhost", port)
+            .handle("/positions/", new PositionsHandler(positions))
+            .handle("/health", new HealthHandler(new H2StoreProbe(db)));
     api.start();
     System.out.printf(
         "position-keeper listening on http://localhost:%d (db %s, %d instruments)%n",
