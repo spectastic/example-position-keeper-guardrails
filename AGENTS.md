@@ -8,11 +8,10 @@ Operating manual for coding agents in this project. Keep it lean (under ~150 lin
 
 ## Setup / build / test
 
-<!-- Exact commands. Replace these placeholders. -->
-- Install: `<install command>`
-- Build: `<build command>`
-- Test: `<test command>`
-- Lint / format: `<lint command>`
+- Install: nothing to install — `./gradlew` downloads Gradle 9.2.1 itself. Any JDK 17+ on the host runs the wrapper; the build's Java 21 toolchain is auto-provisioned (asdf, SDKMAN and `/Library/Java` installs are all detected — no `JAVA_HOME` needed).
+- Build: `./gradlew build` (compile · spotlessCheck · checkstyle · test)
+- Test: `./gradlew test` — one class: `./gradlew test --tests 'xyz.briancorbin.pk.hex.app.PositionServiceTest'`
+- Lint / format: `./gradlew spotlessApply checkstyleMain checkstyleTest` (Spotless = google-java-format; Checkstyle = imports only)
 
 ## Code style
 

@@ -1,0 +1,30 @@
+# Project-owned CI: the Gradle build. The spectastic guarantee-layer gate
+# (validate → enforce → merge verdict) is the sibling spectastic.yml, which
+# `spectastic init --tools` owns and drift-checks — so it is not edited here.
+name: build
+on:
+  pull_request:
+  push:
+    branches: [main, build-out]
+permissions:
+  contents: read
+jobs:
+  gradle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Build (compile · spotlessCheck · checkstyle · test)
+        run: ./gradlew build --no-daemon
+      - name: Keep the test and ArchUnit reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: gradle-reports
+          path: |
+            build/reports/
+          if-no-files-found: ignore
