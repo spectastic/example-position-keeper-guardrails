@@ -35,4 +35,16 @@ public final class PositionService {
   public Optional<Position> lookup(String instrument) {
     return repository.find(instrument);
   }
+
+  /**
+   * Bring the instrument to {@code target} by booking the delta under the supplied tradeId (007: a
+   * reconciliation run). Zero delta books nothing; a repeated tradeId is idempotent like any other.
+   */
+  public Position correct(String instrument, long target, String tradeId) {
+    long delta = target - current(instrument).quantity();
+    if (delta == 0) {
+      return current(instrument);
+    }
+    return book(new TradeEvent(tradeId, instrument, delta));
+  }
 }

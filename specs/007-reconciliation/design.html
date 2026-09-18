@@ -16,7 +16,7 @@
   <h1>Nightly reconciliation</h1>
   <p style="font-family:var(--font-serif);font-size:1.25rem;font-weight:300;color:var(--c-text-soft);font-style:italic;max-width:var(--measure);">How we will build it — the happy path, which acknowledges ADR-0007 and corrects through the use case.</p>
   <spec-meta>
-    <b>Status</b>     <span><spec-status value="draft">Draft</spec-status></span>
+    <b>Status</b>     <span><spec-status value="accepted">Accepted</spec-status></span>
     <b>Spec</b>       <span><a href="./spec.html">007-reconciliation</a></span>
     <b>Owner</b>      <span>Ops Engineering</span>
     <b>Branch</b>     <span><code>feat/nightly-reconciliation</code></span>
@@ -119,6 +119,7 @@ src/main/java/xyz/briancorbin/pk/hex/persistence/CustodianSnapshotReader.java  #
 <section id="complexity"><h2>11 · Complexity tracking</h2><p>None.</p></section>
 <section id="open-questions"><h2>12 · Open questions</h2><p>None outstanding.</p></section>
 <section id="changelog"><h2>13 · Change log</h2><spec-changelog><ol>
+  <li><time datetime="2026-09-18">18 Sep 2026</time><span>Status flipped Draft → Accepted on 18 Sep 2026 — zero remaining unchecked tasks (11/11); ./gradlew build green with ReconciliationJobTest (SC-001, SC-002) verified passing and the reconcile subcommand exercised twice against one store (2 corrections, then 0) per author pre-confirmation for 003–007. Sibling bundle (REQ-LIFECYCLE-005).</span></li>
   <li><time datetime="2026-09-13">13 Sep 2026</time><span>Design drafted (happy path) — corrections through the use case; acknowledges ADR-0007 (002-downstream-consumers/D-007); grounds settlement-window drift in KB-0001. The demonstrations also exercise a bypass variant (caught at plan) and a direct-write commit (caught at merge).</span></li>
 </ol></spec-changelog></section>
 </main>

@@ -9,9 +9,11 @@ import xyz.briancorbin.pk.hex.events.SyncEventBus;
 import xyz.briancorbin.pk.hex.http.HealthHandler;
 import xyz.briancorbin.pk.hex.http.HttpApi;
 import xyz.briancorbin.pk.hex.http.PositionsHandler;
+import xyz.briancorbin.pk.hex.persistence.CustodianSnapshotReader;
 import xyz.briancorbin.pk.hex.persistence.H2Database;
 import xyz.briancorbin.pk.hex.persistence.H2StoreProbe;
 import xyz.briancorbin.pk.hex.persistence.JdbcPositionRepositoryAdapter;
+import xyz.briancorbin.pk.hex.recon.ReconciliationJob;
 import xyz.briancorbin.pk.refdata.ReferenceFeedLoader;
 import xyz.briancorbin.pk.refdata.ReferenceStore;
 
@@ -40,6 +42,15 @@ public final class Main {
                 risk.exposure(e.instrument()),
                 pnl.revaluations()));
     PositionService positions = new PositionService(repository);
+
+    if (args.length == 2 && "reconcile".equals(args[0])) {
+      ReconciliationJob.Report report =
+          new ReconciliationJob(new CustodianSnapshotReader(repository), positions)
+              .run(Path.of(args[1]));
+      System.out.printf(
+          "reconcile run %s: %d correction(s)%n", report.runId(), report.corrections().size());
+      return;
+    }
 
     ReferenceStore refdata = new ReferenceStore();
     refdata.load(ReferenceFeedLoader.loadBundled());
