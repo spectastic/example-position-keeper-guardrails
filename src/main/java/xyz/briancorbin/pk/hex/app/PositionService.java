@@ -1,5 +1,6 @@
 package xyz.briancorbin.pk.hex.app;
 
+import java.util.Optional;
 import xyz.briancorbin.pk.hex.core.Position;
 import xyz.briancorbin.pk.hex.core.PositionRepository;
 import xyz.briancorbin.pk.hex.core.TradeEvent;
@@ -27,6 +28,11 @@ public final class PositionService {
 
   /** The current position, flat when nothing has traded. */
   public Position current(String instrument) {
-    return repository.find(instrument).orElse(Position.flat(instrument));
+    return lookup(instrument).orElse(Position.flat(instrument));
+  }
+
+  /** The position if anything was ever booked for the instrument (004: the 404 distinction). */
+  public Optional<Position> lookup(String instrument) {
+    return repository.find(instrument);
   }
 }

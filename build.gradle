@@ -2,6 +2,7 @@
 // Groovy DSL on purpose: `spectastic enforce` reads Java tooling from build.gradle only.
 plugins {
   id 'java'
+  id 'application'
   id 'checkstyle'
   id 'com.diffplug.spotless' version '8.10.2'
 }
@@ -11,6 +12,10 @@ version = '0.1.0'
 
 java {
   toolchain { languageVersion = JavaLanguageVersion.of(21) }
+}
+
+application {
+  mainClass = 'xyz.briancorbin.pk.Main'
 }
 
 repositories { mavenCentral() }

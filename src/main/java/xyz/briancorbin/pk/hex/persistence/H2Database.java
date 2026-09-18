@@ -28,12 +28,14 @@ public final class H2Database {
   /**
    * Open (creating if absent) the file database at {@code file}, with schema and grants applied.
    */
-  public static H2Database open(Path file) throws SQLException, IOException {
+  public static H2Database open(Path file) throws IOException {
     H2Database db = new H2Database("jdbc:h2:file:" + file.toAbsolutePath());
     try (Connection admin = DriverManager.getConnection(db.url, "sa", "");
         Statement s = admin.createStatement()) {
       s.execute(Files.readString(SCHEMA));
       s.execute(Files.readString(GRANTS));
+    } catch (SQLException e) {
+      throw new PersistenceException("open " + file, e);
     }
     return db;
   }
