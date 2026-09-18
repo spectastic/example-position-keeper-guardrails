@@ -30,8 +30,14 @@ A change is done when: it builds, lint + type-check pass, and the new behavior h
 ## Enforcement floor
 
 This project's profile (standard, soft gate) requires an enforcement gate for: formatter, linter, test-runner.
-- Still to wire (add a tool + CI gate): formatter, linter, test-runner.
-Run `spectastic enforce` to check the floor.
+`spectastic enforce` reports all four categories covered — contract-first, formatter (Spotless / google-java-format),
+linter (Checkstyle), test-runner (Gradle `test` on the JUnit Platform) — every one wired in `build.gradle`, so
+`./gradlew build` is the local gate. Two CI workflows carry it:
+- `.github/workflows/spectastic.yml` — managed by `spectastic init --tools --ci github` (validate → enforce → merge
+  verdict on every pull request). Do not edit it; re-run `spectastic init --tools --ci-only` to refresh, and
+  `spectastic validate` reports drift.
+- `.github/workflows/build.yml` — project-owned; `./gradlew build` on push and pull request.
+Run `spectastic enforce` to re-check the floor after changing the build.
 
 ## Architectural guardrails
 
