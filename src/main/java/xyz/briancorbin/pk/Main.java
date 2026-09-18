@@ -10,6 +10,8 @@ import xyz.briancorbin.pk.hex.http.HttpApi;
 import xyz.briancorbin.pk.hex.http.PositionsHandler;
 import xyz.briancorbin.pk.hex.persistence.H2Database;
 import xyz.briancorbin.pk.hex.persistence.JdbcPositionRepositoryAdapter;
+import xyz.briancorbin.pk.refdata.ReferenceFeedLoader;
+import xyz.briancorbin.pk.refdata.ReferenceStore;
 
 /**
  * Wiring only (004-query-endpoint T-112): the store, the bus, the adapter, the consumers, the API.
@@ -37,11 +39,15 @@ public final class Main {
                 pnl.revaluations()));
     PositionService positions = new PositionService(repository);
 
+    ReferenceStore refdata = new ReferenceStore();
+    refdata.load(ReferenceFeedLoader.loadBundled());
+
     HttpApi api =
         new HttpApi("localhost", port).handle("/positions/", new PositionsHandler(positions));
     api.start();
     System.out.printf(
-        "position-keeper listening on http://localhost:%d (db %s)%n", api.port(), dbFile);
+        "position-keeper listening on http://localhost:%d (db %s, %d instruments)%n",
+        api.port(), dbFile, refdata.size());
   }
 
   private static String env(String name, String fallback) {

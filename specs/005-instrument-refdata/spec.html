@@ -16,7 +16,7 @@
   <h1>Instrument reference data</h1>
   <p style="font-family:var(--font-serif);font-size:1.25rem;font-weight:300;color:var(--c-text-soft);font-style:italic;max-width:var(--measure);">Load and serve instrument static data (name, currency, lot size).</p>
   <spec-meta>
-    <b>Status</b>      <span><spec-status value="draft">Draft</spec-status></span>
+    <b>Status</b>      <span><spec-status value="accepted">Accepted</spec-status></span>
     <b>Spec ID</b>     <span>005-instrument-refdata</span>
     <b>Owner</b>       <span>Reference Data team</span>
     <b>Reviewers</b>   <span>—</span>
@@ -68,6 +68,7 @@ After a feed load, an instrument lookup returns its name, currency, and lot size
 <section id="questions"><h2>7 · Open questions</h2><p>None outstanding.</p></section>
 <section id="conformance"><h2>8 · Conformance index</h2><spec-conformance></spec-conformance></section>
 <section id="changelog"><h2>9 · Change log</h2><spec-changelog><ol>
+  <li><time datetime="2026-09-18">18 Sep 2026</time><span>Status flipped Draft → Accepted on 18 Sep 2026 — zero remaining unchecked tasks (7/7); ./gradlew build green with ReferenceStoreTest (SC-001) and the two-way isolation rule in CoreRulesTest verified passing per author pre-confirmation for 003–007. Sibling bundle (REQ-LIFECYCLE-005).</span></li>
   <li><time datetime="2026-09-15">15 Sep 2026</time><span>Reset to Draft — re-driven through tasks → implement → verify against a real Gradle build; the 2024–25 dates in docs/timeline.md remain the narrated history.</span></li>
   <li><time datetime="2024-11-03">03 Nov 2024</time><span>Accepted — instrument reference data. Separate module; unrelated to positions or ADR-0007.</span></li>
 </ol></spec-changelog></section>

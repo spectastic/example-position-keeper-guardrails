@@ -64,4 +64,28 @@ class CoreRulesTest {
             .resideInAnyPackage("..hex.app..", "..hex.persistence..")
             .because("FR-003: dependencies point inward; the domain is reached through ports"));
   }
+
+  @Test
+  void referenceDataDependsOnNothingInTheHexagon() {
+    assertHolds(
+        noClasses()
+            .that()
+            .resideInAPackage("..refdata..")
+            .should()
+            .dependOnClassesThat()
+            .resideInAPackage("..hex..")
+            .because("005 NFR-001: reference data is its own module, separate from positions"));
+  }
+
+  @Test
+  void theHexagonDependsOnNothingInReferenceData() {
+    assertHolds(
+        noClasses()
+            .that()
+            .resideInAPackage("..hex..")
+            .should()
+            .dependOnClassesThat()
+            .resideInAPackage("..refdata..")
+            .because("005 NFR-001: positions never reach into reference data"));
+  }
 }
