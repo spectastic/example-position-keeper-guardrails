@@ -10,5 +10,5 @@ target/
 .gradle/
 *.mv.db
 *.trace.db
-.spectastic/adr-retrieval.json
-.spectastic/verdict.json
+**/.spectastic/adr-retrieval.json
+**/.spectastic/verdict.json

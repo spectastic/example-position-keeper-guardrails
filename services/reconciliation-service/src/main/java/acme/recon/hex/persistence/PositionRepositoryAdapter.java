@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 /**
  * THE CROSS-SERVICE PRIYA PR — the reconciliation service reaching into the
  * position-keeper's store. This is a textbook persistence adapter: inside the
- * consumer's own src/**/persistence/** package, cleanly layered, ports-and-
+ * consumer's own src/.../persistence/... package, cleanly layered, ports-and-
  * adapters by the book. A path rule would call it sanctioned. It is still a
  * violation, because acme/reconciliation-service does not OWN
  * spectastic://briancorbin/position-keeper-guardrails/datastore/positions —
