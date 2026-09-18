@@ -1,6 +1,6 @@
 # Demonstrations — the eight behaviors, against feature 7
 
-Every command is reproducible from the repo root. The outputs here are real tool output, committed so a
+Every command is reproducible from the repo root (demo 8 from `services/reconciliation-service/`). The outputs here are real tool output, committed so a
 reader can check every claim offline. The guardrail tooling is specs 112–120 of the spectastic meta-repo.
 
 | # | Behavior | Evidence |
@@ -8,11 +8,11 @@ reader can check every claim offline. The guardrail tooling is specs 112–120 o
 | 1 | Happy path — plan surfaces ADR-0007 via scoped retrieval | `1-happy-retrieval.txt`, `1-retrieval-log.json` |
 | 2 | Forced bypass, caught at plan (design omits the acknowledgment) | `2-plan-bypass.txt` |
 | 3 | Forced bypass, caught at merge, **explained for the reviewer** (`--explain`) | `3-merge-bypass.txt`, `3-verdict.json` |
-| 4 | The residual case — allowed adapter passes; ArchUnit finding via SARIF | `4-residual.txt`, `4a`/`4b` |
+| 4 | The residual case — allowed adapter passes; **real** ArchUnit findings via SARIF from PR #1 | `4-residual.txt`, `4a`/`4b` |
 | 5 | Coverage report — the DB grant is a `none`-with-reason | `5-coverage.txt` |
 | 6 | Vendor neutrality — the verdict is a plain artifact | `6-vendor-neutrality.md` |
 | 7 | Teaching on failure — the explanation, then one Socratic question, never a fix | `7-teaching.txt`, `7-verdict.json` |
-| 8 | **Ownership, not layering** — a non-owner service's well-layered write is flagged with `cause: "ownership"`, explained and taught as an ownership question; the owner's is not | `8-cross-service.txt`, `8-verdict.json`, `8-verdict-as-owner.json`, [`8-consumer-service/`](8-consumer-service/) |
+| 8 | **Ownership, not layering** — a non-owner service's well-layered write is flagged with `cause: "ownership"`, explained and taught as an ownership question; the owner's is not | `8-cross-service.txt`, `8-verdict.json`, `8-verdict-as-owner.json`, [`services/reconciliation-service/`](../services/reconciliation-service/) |
 
 Demo 3 uses `--explain` (spec 118): the terse `VIOLATION` line is followed by a reviewer-grade block in
 the shape of a spectastic triage card — the **offending code** shown in context with the flagged line
@@ -31,13 +31,20 @@ it, reset `specs/007-reconciliation/design.html`'s status pill to `draft` in a s
 line joined the capture on 18 Sep 2026; the CLI prints it now.
 
 Demo 4 shows the detector/explainer split: spectastic's own content detector *and* ArchUnit's
-type-graph finding (ingested from SARIF, never run by spectastic) both compose the **same** decision's
+type-graph findings (ingested from SARIF, never run by spectastic) both compose the **same** decision's
 reason; demo 4a shows the sanctioned adapter's identical SQL is silent because it is in the allowed path.
+Since the build-out the SARIF is **real output** of `./gradlew test --tests '*DataAccessRulesTest'` on the bypass
+branch `feat/nightly-reconciliation` (PR #1): six results, one per `java.sql` access, at
+`src/main/java/xyz/briancorbin/pk/recon/PositionReconciliationJob.java:21–26` — the branch's copy is
+Spotless-formatted, so its `UPDATE` sits on line 22 where the quoted `docs/priya-pr/` copy has it on 20. The
+native detector's `:20` and the enforcer's `:21–26` therefore name the same statement in two copies of one file;
+see [`enforcement/README.md`](../enforcement/README.md).
 
 Demo 8 is spec 119 (decision resource scope). D-007 now also names the *store* it governs and its *owner*
 (`spectastic://briancorbin/position-keeper-guardrails/datastore/positions`, owned by this project). In the
 owner repo that changes nothing — demos 1–7 reproduce byte-identically, the path rule applies. In
-`8-consumer-service/` (project `acme/reconciliation-service`) the same decision, evaluated under a non-owner
+[`services/reconciliation-service/`](../services/reconciliation-service/) (project `acme/reconciliation-service`, a real
+Gradle subproject since the build-out; `8-consumer-service.md` is the pointer) the same decision, evaluated under a non-owner
 identity, flags a textbook persistence adapter that writes the store — a path glob would call it sanctioned;
 the defect is *whose store it is*, not where the write sits. Flip `spectastic.json` to the owner identity and
 the identical file is clean. Spec 120 makes the *output* ownership-aware too: the violation carries
