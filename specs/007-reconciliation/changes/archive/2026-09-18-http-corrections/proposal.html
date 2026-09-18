@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; object-src 'none'; base-uri 'none'">
 <title>Accept corrections from a downstream service over HTTP · Change proposal</title>
-<link rel="stylesheet" href="../../../../assets/spec.css">
-<link rel="icon" type="image/svg+xml" href="../../../../assets/favicon.svg">
-<script src="../../../../assets/theme-boot.js"></script>
+<link rel="stylesheet" href="../../../../../assets/spec.css">
+<link rel="icon" type="image/svg+xml" href="../../../../../assets/favicon.svg">
+<script src="../../../../../assets/theme-boot.js"></script>
 </head>
 <body>
 <main>
@@ -20,9 +20,9 @@
   </p>
 
   <spec-meta>
-    <b>Status</b>     <span><spec-status value="accepted">Approved</spec-status></span>
+    <b>Status</b>     <span><spec-status value="applied">Applied</spec-status></span>
     <b>Change ID</b>  <span>2026-09-18-http-corrections</span>
-    <b>Spec</b>       <span><a href="../../spec.html">007-reconciliation</a></span>
+    <b>Spec</b>       <span><a href="../../../spec.html">007-reconciliation</a></span>
     <b>Author</b>     <span>Position Keeping team</span>
     <b>Created</b>    <span><time datetime="2026-09-18">18 Sep 2026</time></span>
     <b>Targets</b>    <span>1 requirement</span>
@@ -38,11 +38,11 @@
 </header>
 
 
-<spec-change id="2026-09-18-http-corrections" status="approved">
+<spec-change id="2026-09-18-http-corrections" status="applied">
 
 <header>
   <h3>Accept corrections from a downstream service over HTTP</h3>
-  <span class="meta"><spec-status value="accepted">Approved</spec-status></span>
+  <span class="meta"><spec-status value="applied">Applied</spec-status></span>
 </header>
 
 
@@ -85,7 +85,7 @@ ADR-0007's boundary moves.</p>
 
 <section id="approach">
 <h2>3 · Approach</h2>
-<p>A third handler on the existing JDK HTTP server (<a href="../../../004-query-endpoint/design.html#D-001">004/D-001</a>):
+<p>A third handler on the existing JDK HTTP server (<a href="../../../../004-query-endpoint/design.html#D-001">004/D-001</a>):
 <code>hex.http.CorrectionsHandler</code> parses the JSON body — three fields, hand-parsed like the rest of the surface — and
 calls <code>PositionService.correct(instrument, quantity, tradeId)</code> (007 T-010), answering <code>Json.position</code> of the
 result. A malformed body is <code>400</code>; any method but <code>POST</code> is <code>405</code>. <code>Main</code> registers it.
@@ -185,6 +185,7 @@ the answer &ldquo;this removes nothing&rdquo;</strong>, so the common case needs
 <ol>
   <li><time datetime="2026-09-18">18 Sep 2026</time><span>Adversarial risk pass: four findings (the corpus angle fired on KB-0001). FR-005 reworded so the tradeId identifies the caller's reconciliation run and the quantity is the custodian's; the unauthenticated-door risk accepted with rationale; the placement concern rejected — the owner specifies the door.</span></li>
   <li><time datetime="2026-09-18">18 Sep 2026</time><span>Proposal authored — one additive requirement giving the owner a sanctioned correction route for downstream services; the contract sidecar authored alongside and declared in the design.</span></li>
+  <li><time datetime="2026-09-18">18 Sep 2026</time><span>Applied on 18 Sep 2026 — Added FR-005 — a downstream reconciliation service can bring an instrument to its custodian quantity over POST /corrections, through the same use-case path the nightly job uses; the corrections contract promoted to api/corrections.openapi.yaml.</span></li>
 </ol>
 </spec-changelog>
 </section>
@@ -196,6 +197,6 @@ the answer &ldquo;this removes nothing&rdquo;</strong>, so the common case needs
 </footer>
 
 </main>
-<script src="../../../../assets/spec.js"></script>
+<script src="../../../../../assets/spec.js"></script>
 </body>
 </html>

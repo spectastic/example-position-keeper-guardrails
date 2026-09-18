@@ -127,8 +127,26 @@ US1, US2        → Polish
 </code></pre>
 </section>
 
+<section id="phase-2026-09-18-http-corrections" class="phase">
+<h2>5 · Accept corrections from a downstream service over HTTP <span class="par">(applied change <a href="./changes/archive/2026-09-18-http-corrections/proposal.html">2026-09-18-http-corrections</a>)</span></h2>
+<p>Folded from the applied proposal's §6 (the archive is frozen).</p>
+<spec-task id="T-1000">
+  <input type="checkbox" checked>
+  <div>Test the corrections endpoint — start <code>HttpApi</code> on port 0 with <code>CorrectionsHandler</code> over an in-memory repository, bus and recorder; <code>POST /corrections {"instrument":"AAPL","quantity":100,"tradeId":"c-1"}</code> → 200 <code>{"instrument":"AAPL","quantity":100}</code> and exactly one <code>PositionChanged(AAPL, 100, c-1)</code>; the same body again → 200 and still one event; <code>{"instrument":"AAPL"}</code> → 400; <code>GET /corrections</code> → 405 <span class="path">src/test/java/xyz/briancorbin/pk/hex/http/CorrectionsEndpointTest.java</span></div>
+</spec-task>
+<spec-task id="T-1001">
+  <input type="checkbox" checked>
+  <div>Implement the corrections handler — POST only (405 with <code>Allow: POST</code>); parse the three fields from the JSON body (400 naming the missing or malformed field); <code>positions.correct(instrument, quantity, tradeId)</code>; 200 with <code>Json.position</code> <span class="path">src/main/java/xyz/briancorbin/pk/hex/http/CorrectionsHandler.java</span></div>
+</spec-task>
+<spec-task id="T-1002">
+  <input type="checkbox" checked>
+  <div>Register the route and exercise it — <code>Main</code> adds <code>.handle("/corrections", new CorrectionsHandler(positions))</code>; <code>./gradlew run</code> then <code>curl -si -X POST localhost:8080/corrections -d '{"instrument":"AAPL","quantity":100,"tradeId":"c-1"}'</code> → 200 and a <code>PositionChanged</code> log line; the same request again → 200 and no new line <span class="path">src/main/java/xyz/briancorbin/pk/Main.java</span></div>
+</spec-task>
+</section>
+
+
 <section id="changelog">
-<h2>7 · Change log</h2>
+<h2>8 · Change log</h2>
 <spec-changelog><ol>
   <li><time datetime="2026-09-18">18 Sep 2026</time><span>Status flipped Draft → Accepted on 18 Sep 2026 — zero remaining unchecked tasks (11/11); ./gradlew build green with ReconciliationJobTest (SC-001, SC-002) verified passing and the reconcile subcommand exercised twice against one store (2 corrections, then 0) per author pre-confirmation for 003–007. Sibling bundle (REQ-LIFECYCLE-005).</span></li>
   <li><time datetime="2026-09-18">18 Sep 2026</time><span>Initial task breakdown — 11 tasks, 2 parallel; corrections through a new <code>correct</code> use case keyed by <code>recon:&lt;sha8&gt;:&lt;instrument&gt;</code>.</span></li>

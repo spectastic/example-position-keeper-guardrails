@@ -6,6 +6,7 @@ import xyz.briancorbin.pk.hex.app.PositionService;
 import xyz.briancorbin.pk.hex.consumers.PnlRevaluer;
 import xyz.briancorbin.pk.hex.consumers.RiskExposureView;
 import xyz.briancorbin.pk.hex.events.SyncEventBus;
+import xyz.briancorbin.pk.hex.http.CorrectionsHandler;
 import xyz.briancorbin.pk.hex.http.HealthHandler;
 import xyz.briancorbin.pk.hex.http.HttpApi;
 import xyz.briancorbin.pk.hex.http.PositionsHandler;
@@ -58,7 +59,8 @@ public final class Main {
     HttpApi api =
         new HttpApi("localhost", port)
             .handle("/positions/", new PositionsHandler(positions))
-            .handle("/health", new HealthHandler(new H2StoreProbe(db)));
+            .handle("/health", new HealthHandler(new H2StoreProbe(db)))
+            .handle("/corrections", new CorrectionsHandler(positions));
     api.start();
     System.out.printf(
         "position-keeper listening on http://localhost:%d (db %s, %d instruments)%n",
