@@ -59,8 +59,8 @@ service too, where the write is cleanly layered and the defect is ownership.
 - `demonstrations/` — the [eight behaviors](demonstrations/README.md), each reproducible.
 - `inbox.html` — the project's own triage inbox; gaps found in spectastic itself went to the meta-repo's.
 
-Run it: `./gradlew build` · `./gradlew run` (8080: `/positions/{instrument}`, `/health`, `POST /corrections`) ·
-`./gradlew run --args='reconcile src/test/resources/custodian/eod-2026-09-13.csv'` ·
+Run it: `./gradlew build` · `./gradlew :run` (8080: `/positions/{instrument}`, `/health`, `POST /corrections`) ·
+`./gradlew :run --args='reconcile src/test/resources/custodian/eod-2026-09-13.csv'` ·
 `./gradlew :reconciliation-service:run` (8081).
 
 ## Honest scope
