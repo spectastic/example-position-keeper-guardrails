@@ -24,6 +24,12 @@ record and the changed file — no model is on the path, and the exit code and `
 byte-identical with or without the flag (the explanation is output-only). This is what lets a PR author
 or reviewer act without leaving the diff to go read the ADR.
 
+Demo 2 is **forward-only** (114): the plan-constraint fires on a *Draft* design and never on an Accepted one. It was
+captured while 007's design was still Draft — by removing the "Governing decisions acknowledged" paragraph, running
+`validate`, and restoring it — and cannot be reproduced against `main`, where every bundle is Accepted. To reproduce
+it, reset `specs/007-reconciliation/design.html`'s status pill to `draft` in a scratch checkout first. The `→` fix-hint
+line joined the capture on 18 Sep 2026; the CLI prints it now.
+
 Demo 4 shows the detector/explainer split: spectastic's own content detector *and* ArchUnit's
 type-graph finding (ingested from SARIF, never run by spectastic) both compose the **same** decision's
 reason; demo 4a shows the sanctioned adapter's identical SQL is silent because it is in the allowed path.
